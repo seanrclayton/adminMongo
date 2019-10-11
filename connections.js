@@ -12,6 +12,19 @@ exports.addConnection = function (connection, app, callback){
         connection.connOptions = {};
     }
 
+    if(process.env.CONN_PARAMS){
+        parameters = connection.connOptions = process.env.CONN_PARAMS.split(',');
+        f
+
+        /*
+        {
+    "poolSize": 10,
+    "autoReconnect": false,
+    "ssl": false
+}
+         */
+
+    }
     var dbObj = {};
     dbObj.connection = null;
     dbObj.connect = (callback) => {
