@@ -169,10 +169,10 @@ if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
 
     let parameters;
     if (process.env.CONN_PARAMS) {
-        connection.connOptions = {};
+        configConnection.connections.connection_options = {};
 
         function updateConnectionOptions(key, value) {
-            return connection.connOptions[key] = value
+            return configConnection.connections.connection_options[key] = value
 
         }
 
@@ -185,7 +185,7 @@ if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
             position = position + 2;
         }
 
-        console.log(connection.connOptions)
+        console.log(configConnection.connections.connection_options)
 
         /*
         {
