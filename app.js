@@ -172,6 +172,9 @@ if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
             configConnection.connections[(role ? `${role}-` : '') + process.env.CONN_NAME].connection_options = {};
 
             function updateConnectionOptions(key, value) {
+                if (value === "true" || value === "false"){
+                    value = JSON.parse(value)
+                }
                 return configConnection.connections[(role ? `${role}-` : '') + process.env.CONN_NAME].connection_options[key] = value
 
             }
