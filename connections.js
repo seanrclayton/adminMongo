@@ -12,35 +12,6 @@ exports.addConnection = function (connection, app, callback){
         connection.connOptions = {};
     }
 
-    let parameters;
-    if (process.env.CONN_PARAMS) {
-        connection.connOptions = {}
-
-        function updateConnectionOptions(key, value) {
-            return connection.connOptions[key] = value
-
-        }
-
-        parameters = process.env.CONN_PARAMS.split(',');
-
-        for (position=0; position < parameters.length; ) {
-            key = data[position];
-            value = data[position+1];
-            updateConnectionOptions(key,value);
-            position = position + 2;
-        }
-
-        console.log(connection.connOptions)
-
-        /*
-        {
-    "poolSize": 10,
-    "autoReconnect": false,
-    "ssl": false
-}
-         */
-
-    }
     var dbObj = {};
     dbObj.connection = null;
     dbObj.connect = (callback) => {
