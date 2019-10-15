@@ -12,9 +12,25 @@ exports.addConnection = function (connection, app, callback){
         connection.connOptions = {};
     }
 
-    if(process.env.CONN_PARAMS){
-        parameters = connection.connOptions = process.env.CONN_PARAMS.split(',');
-        f
+    let parameters;
+    if (process.env.CONN_PARAMS) {
+        connection.connOptions = {}
+
+        function updateConnectionOptions(key, value) {
+            return connection.connOptions[key] = value
+
+        }
+
+        parameters = process.env.CONN_PARAMS.split(',');
+
+        for (position=0; position < parameters.length; ) {
+            key = data[position];
+            value = data[position+1];
+            updateConnectionOptions(key,value);
+            position = position + 2;
+        }
+
+        console.log(connection.connOptions)
 
         /*
         {
@@ -44,6 +60,7 @@ exports.addConnection = function (connection, app, callback){
     app.locals.dbConnections[connection.connName] = dbObj;
     callback(null, null);
 };
+
 
 exports.getConnection = function(request, response, connectionName) {
     // Get request and check if user has required roles
