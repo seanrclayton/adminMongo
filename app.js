@@ -112,6 +112,7 @@ if(!fs.existsSync(config_app)) fs.writeFileSync(config_app, JSON.stringify(confi
 var configConnection = {
     connections: {}
 };
+
 if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
     var defaultPort = 27017;
     
@@ -165,37 +166,30 @@ if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
             connection_string: mongoUri.format(connectionObject),
             requiredRoles: role ? [role.toLowerCase()] : []
         };
+
+        let parameters;
+        if (process.env.CONN_PARAMS) {
+            configConnection.connections.connection_options = {};
+
+            function updateConnectionOptions(key, value) {
+                return configConnection.connections.connection_options[key] = value
+
+            }
+
+            parameters = process.env.CONN_PARAMS.split(',');
+
+            for (position=0; position < parameters.length; ) {
+                key = parameters[position];
+                value = parameters[position+1];
+                updateConnectionOptions(key,value);
+                position = position + 2;
+            }
+            console.log(configconnection.connection_options)
+
+
+        }
     });
 
-    let parameters;
-    if (process.env.CONN_PARAMS) {
-        configConnection.connections.connection_options = {};
-
-        function updateConnectionOptions(key, value) {
-            return configConnection.connections.connection_options[key] = value
-
-        }
-
-        parameters = process.env.CONN_PARAMS.split(',');
-
-        for (position=0; position < parameters.length; ) {
-            key = parameters[position];
-            value = parameters[position+1];
-            updateConnectionOptions(key,value);
-            position = position + 2;
-        }
-
-        console.log(configConnection.connections.connection_options)
-
-        /*
-        {
-    "poolSize": 10,
-    "autoReconnect": false,
-    "ssl": false
-}
-         */
-
-    }
 }
 if (!fs.existsSync(config_connections) || fs.readFileSync(config_connections, 'utf8') === '{}')
     fs.writeFileSync(config_connections, JSON.stringify(configConnection));
