@@ -1,0 +1,28 @@
+# note to self, this should never contain secrets 
+mongo-ui:
+    container_name: mongo-ui
+    image: seanrclayton/adminmongo:latest 
+# net:host may not be nessesary but allows  use /etc/hosts file 
+    net: host
+    restart: always    
+    user: root
+    ports:      
+      - 1234:1234
+    environment:      
+      - PORT=1234
+      - CONN_NAME=connection_name
+      - DB_HOST=mongo-host
+      - DB_PORT=27017
+      - HOST=0.0.0.0
+      - DB_NAME=db_name
+      - DB_USERNAME=username 
+      - DB_PASSWORD=password
+# for username a ro will be able to see all documents but not modify anything
+# the connection parameters takes a list of key,value pairs and converts them to a connection_option object 
+# again, for read only the CONN_PARAMS should contain readPreference,secondary which is the same as doing rs.slaveOk() in a shell
+      - CONN_PARAMS=ssl,true,readPreference,secondary
+# these may not be nessesary but allows access to a access VPN tunnel 
+    cap_drop:
+      - NET_ADMIN
+      - SYS_ADMIN
+
