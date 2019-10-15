@@ -184,7 +184,7 @@ if(process.env.CONN_NAME && (process.env.DB_HOST || process.env.DB_URI)) {
                 updateConnectionOptions(key,value);
                 position = position + 2;
             }
-            console.log(configconnection.connection_options)
+            console.log(configConnection.connections.connection_options)
 
 
         }
